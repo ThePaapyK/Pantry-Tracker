@@ -70,9 +70,13 @@ export default function Home() {
     setInventory(inventoryList)
   }
 
-  useEffect(() => {
-    updateInventory()
-  }, [])
+   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Code that accesses the window object
+      updateInventory();
+    }
+  }, []);
+
 
   const addItem = async (item) => {
     const docRef = doc(collection(firestore, 'inventory'), item)

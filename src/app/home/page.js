@@ -5,6 +5,7 @@ import { auth, firestore } from '@/firebase';
 import { collection, addDoc, getDocs, query, setDoc, getDoc, doc, deleteDoc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { onAuthStateChanged } from 'firebase/auth';
 import axios from 'axios'
 
 
@@ -79,7 +80,7 @@ export default function Home() {
     return () => unsubscribe();
   }, [router]);
   
-  const updateInventory = async () => {
+  const updateInventory = async (userId) => {
     const snapshot = query(collection(firestore, `users/${userId}/inventory`))
     const docs = await getDocs(snapshot)
     const inventoryList = []

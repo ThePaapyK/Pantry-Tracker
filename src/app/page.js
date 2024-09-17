@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged } f
 import { auth, googleProvider, facebookProvider } from '@/firebase';
 import { Box, Typography, TextField, Button, Divider, Link } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';

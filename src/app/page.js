@@ -47,7 +47,7 @@ const signup = () => {
   return (
     <Box
       width="100vw"
-      height="100vh"
+      height="100dvh"
       display={'flex'}
       sx = {{
         padding: {
@@ -55,10 +55,13 @@ const signup = () => {
           xs: 2,
         },
         flexDirection: {
-          sm: "column-reverse",
-          md: "column-reverse",
+          sm: "row",
+          md: "row",
           lg: "row"
-        }
+        },
+        "@media (width: 1024px) and (max-height: 600px)": {
+          flexDirection: "row", // Set flex direction to column for 1024x600px devices
+        },
       }}
     >
       <Box
@@ -67,27 +70,17 @@ const signup = () => {
           position: "relative",
           width: {
             xs: "100%",
-            sm: "100%",
-            md: "50%",
+            sm: "35%",
+            md: "35%",
             lg: "50%",
           },
         }}
       >
-        <Container
-          sx={{
-            display: {
-              xs:"block",
-              sm:"none",
-              lg:"block",
-            }
-          }}
-        >
         <img
           src="/images/kichin-g.png"
           alt="Kichin Logo"
           style={{ width: 'auto', height: '60px', borderRadius: '8px' }}
         />
-        </Container>
         <Box
           height="auto"
           position="absolute"
@@ -104,7 +97,8 @@ const signup = () => {
               md: "100%",
               lg: "70%",
 
-            }
+            },
+            
           }}
         >
           <Typography
@@ -219,13 +213,16 @@ const signup = () => {
                 position: "relative",
 
                 width: {
-                  sm: "100%",
+                  sm: "65%",
                   lg: "50%",
                 },
                 height: {
-                  sm: "45%",
+                  sm: "100%",
                   lg: "100%",
                 },
+                "@media (width: 1024px) and (height: 600px)": {
+          height: "100%", // Set flex direction to column for 1024x600px devices
+        },
         }}
       >
         <Typography 

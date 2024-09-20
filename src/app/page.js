@@ -201,6 +201,24 @@ const signup = () => {
             Already have an account? <Link href="#" color="inherit" fontWeight={600}>Login</Link>
           </Typography>
         </Box>
+        <Typography variant="h5"
+          sx={{
+            position: "absolute",
+            textAlign: "center",
+            color: "#130",
+            display: {
+              xs: "block",
+              sm: "none",
+              md: "none",
+              lg: "none",
+            },
+            top: "85%",
+            fontFamily: "Times New Roman", 
+            fontStyle: "italic",
+          }}
+        >
+          Enter the future of Kitchen management, today
+        </Typography>
       </Box>
       <Hidden smDown>
       <Box

@@ -212,7 +212,7 @@ const signup = () => {
               md: "none",
               lg: "none",
             },
-            top: "85%",
+            top: "87%",
             fontFamily: "Times New Roman", 
             fontStyle: "italic",
           }}

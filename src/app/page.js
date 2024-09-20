@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
 import { auth, googleProvider, facebookProvider } from '@/firebase';
-import { Box, Typography, TextField, Button, Divider, Link } from '@mui/material';
+import { Box, Typography, TextField, Button, Divider, Link, Hidden, Container } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 import '@fontsource/roboto/300.css';
@@ -49,21 +49,47 @@ const signup = () => {
       width="100vw"
       height="100vh"
       display={'flex'}
-      padding={3}
+      sx = {{
+        padding: {
+          lg: 3,
+          xs: 2,
+        },
+        flexDirection: {
+          sm: "column-reverse",
+          md: "column-reverse",
+          lg: "row"
+        }
+      }}
     >
       <Box
-        width="50vw"
         height="100%"
-        sx={{ position: "relative" }}
+        sx={{
+          position: "relative",
+          width: {
+            xs: "100%",
+            sm: "100%",
+            md: "50%",
+            lg: "50%",
+          },
+        }}
       >
+        <Container
+          sx={{
+            display: {
+              xs:"block",
+              sm:"none",
+              lg:"block",
+            }
+          }}
+        >
         <img
           src="/images/kichin-g.png"
-          alt="Example"
+          alt="Kichin Logo"
           style={{ width: 'auto', height: '60px', borderRadius: '8px' }}
         />
+        </Container>
         <Box
-          width="500px"
-          height="60%"
+          height="auto"
           position="absolute"
           top="50%"
           left="50%"
@@ -71,7 +97,14 @@ const signup = () => {
             transform: "translate(-50%, -50%)",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",  
+            alignItems: "center",
+            width: {
+              xs: "100%",
+              sm: "100%",
+              md: "100%",
+              lg: "70%",
+
+            }
           }}
         >
           <Typography
@@ -175,9 +208,8 @@ const signup = () => {
           </Typography>
         </Box>
       </Box>
+      <Hidden smDown>
       <Box
-        width="50vw"
-        height="100%"
         borderRadius={2}
         sx={{
                 backgroundImage: "url(/images/theleaf.jpg)",
@@ -185,6 +217,15 @@ const signup = () => {
                 backgroundPosition: "center",
                 padding: 4,
                 position: "relative",
+
+                width: {
+                  sm: "100%",
+                  lg: "50%",
+                },
+                height: {
+                  sm: "45%",
+                  lg: "100%",
+                },
         }}
       >
         <Typography 
@@ -193,6 +234,10 @@ const signup = () => {
             color: "#ffffff",
             fontFamily: "Times New Roman", 
             fontStyle: "italic",
+            fontSize: {
+              sm: "2rem",
+              lg: "3rem",
+            }
           }}>
           Enter the Future
         </Typography>
@@ -202,17 +247,22 @@ const signup = () => {
             ml: 10,
             color: "#ffffff",
             width: "220px",
-            fontWeight: "300"
+            fontWeight: "300",
+            fontSize: {
+              sm: "2rem",
+              lg: "3rem",
+            }
           }}
         >
           of Kitchen management, today
         </Typography>
         <img
           src="/images/kichin-w.png"
-          alt="Example"
+          alt="Kichin Logo"
           style={{ width: 'auto', height: '45px', position: 'absolute', bottom: '24px', right: '24px' }}
         />
       </Box>
+      </Hidden>
     </Box>
   )
 }

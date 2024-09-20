@@ -201,7 +201,7 @@ const signup = () => {
             Already have an account? <Link href="#" color="inherit" fontWeight={600}>Login</Link>
           </Typography>
         </Box>
-        <Typography variant="h5"
+        <Typography variant="h6"
           sx={{
             position: "absolute",
             textAlign: "center",

@@ -28,7 +28,7 @@ const signin = () => {
     }
   };
 
-  const handleSocialSignUp = async (provider) => {
+  const handleSocialSignIn = async (provider) => {
     try {
       await signInWithPopup(auth, provider);
       router.push('/home'); 
@@ -124,7 +124,7 @@ const signin = () => {
               width: "250px",
               textTransform: "none",
             }}
-            onClick={() => handleSocialSignUp(googleProvider)}
+            onClick={() => handleSocialSignIn(googleProvider)}
           >Continue with Google
           </Button>
           <Button
@@ -142,7 +142,7 @@ const signin = () => {
               width: "250px",
               textTransform: "none",
             }}
-            onClick={() => handleSocialSignUp(facebookProvider)}
+            onClick={() => handleSocialSignIn(facebookProvider)}
           >Continue with Facebook
           </Button>
           <Button

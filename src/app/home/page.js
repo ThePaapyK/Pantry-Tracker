@@ -1,11 +1,12 @@
 'use client';
-import { Box, Typography, Modal, Stack, TextField, Button } from '@mui/material';
+import { Box, Typography, Modal, Stack, TextField, Button, Avatar, Tooltip, IconButton, Menu, MenuItem, Divider, ListItemIcon } from '@mui/material';
+import { PersonAdd, Settings, Logout } from '@mui/icons-material';
 import { keyframes } from '@emotion/react';
 import { auth, firestore } from '@/firebase';
 import { collection, addDoc, getDocs, query, setDoc, getDoc, doc, deleteDoc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import axios from 'axios'
 
 
@@ -65,7 +66,17 @@ export default function Home() {
   const [itemName, setItemName] = useState('');
   const [searchQuery, setSearchQuery] = useState('')
   const [user, setUser] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const router = useRouter();
+  const reveal = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const menuClose = () => {
+    setAnchorEl(null);
+  };
 
    // Check authentication status
    useEffect(() => {
@@ -133,81 +144,116 @@ export default function Home() {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/login');  // Redirect to the login page
+      console.log("successfully logged out")
+    } catch (error) {
+      console.error('Error signing out: ', error);
+    }
+  };
+  
+
   return (
     <Box
       width="100vw"
       height="100vh"
       display={'flex'}
+      sx={{
+        flexDirection: "column",
+      }}
     >
       <Box
-	      width="50%"
-	      height="inherit"
-	      display={'flex'}
-	      flexDirection="column"
-	      sx={{
-	        backgroundImage: "url(/images/pantry_shelf.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-	        padding: 4,
-	        filter: 'blur(4px)'
-	      }}
-      />
-      <Box
         sx={{
-          position: 'absolute',
-	        p: 4,
-          top: 0,
-          left: 0,
-          width: '50%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          zIndex: 1,
-          backdropFilter: 'blur(4px)', // Optional: blur the overlay content as well
+          padding: 1,
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        <Box
-	        display={'flex'}
-	        alignItems="center"
-	        sx={{
-	          animation: `${slideIn} 1s ease-out`,
-	         }}
-	      >
-	        <img
-	          src="/images/carrot.png"
-	          style={{
-	            height: 80,
-	            width: 50,
-	            filter: 'invert(1) brightness(2)',
-	          }}
-	      
-	        />
-          <Typography variant="h2" color="#ffffff">
-	          Fobi Pantry Tracker
-          </Typography>
-        </Box>
-        <Box
-	        color="#ffffff"
-	        sx={{
-            marginTop: 'auto',
-            animation: `${slideIn} 1s ease-out`,
-	        }}
-        >
-	        <Typography variant="h4">
-	          Smart Tracking for a Smarter Kitchen
-	        </Typography>
-	        <Typography variant="body1">
-	          Our Pantry Tracker is designed to bring ease and efficiency to your kitchen management.
-	          Say goodbye to the frustration of forgetting what you have or letting items go to waste.
-	          Whether you're a busy parent, a meal prep enthusiast, or simply someone who values organization,
-	          our Pantry Tracker ensures you always know what's in stock, helping you save time, reduce waste,
-	          and make smarter grocery decisions.
-	        </Typography>
-        </Box>
-     </Box>
+        <img
+          src="/images/kichin-g.png"
+          alt="Kichin Logo"
+          style={{ width: 'auto', height: '60px', borderRadius: '8px', margin: '16px' }}
+        />
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{
+              width: "40px",
+              height: "40px",
+            }}
+            aria-controls={reveal ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={reveal ? 'true' : undefined}
+          >
+            <Avatar >M</Avatar>
+          </IconButton>
+        </Tooltip>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={reveal}
+        onClose={menuClose}
+        onClick={menuClose}
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,
+              '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              '&::before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: 'background.paper',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+              },
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem onClick={menuClose}>
+          <Avatar /> My account
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={menuClose}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Add another account
+        </MenuItem>
+        <MenuItem onClick={menuClose}>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+      </Box>
      <Box
-       width="50%"
+       width="100%"
        height="inherit"
        backgroundColor="white"
        display={'flex'}
@@ -269,7 +315,7 @@ export default function Home() {
             alignItems={'center'}
           >
             <Typography variant={'h2'} color={'#333'} textAlign={'center'}>
-              Pantry Items
+              Items
             </Typography>
           </Box>
           <Stack width="600px" height="300px" spacing={2} overflow={'auto'}>

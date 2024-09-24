@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
 import { auth, googleProvider, facebookProvider } from '@/firebase';
-import { Box, Typography, TextField, Button, Divider, Link, Hidden, Container } from '@mui/material';
+import { Box, Typography, TextField, Button, Divider, Link, Hidden, Container, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 import '@fontsource/roboto/300.css';
@@ -101,6 +101,11 @@ const signup = () => {
             
           }}
         >
+          {error && (
+          <Alert severity="error" sx={{ width: "100%", marginBottom: "16px" }}>
+            {error}
+          </Alert>
+        )}
           <Typography
             variant="h5"
             sx={{
@@ -125,7 +130,7 @@ const signup = () => {
               textTransform: "none",
             }}
             onClick={() => handleSocialSignUp(googleProvider)}
-          >Sign up with Google
+          >Continue with Google
           </Button>
           <Button
             startIcon={
@@ -143,7 +148,7 @@ const signup = () => {
               textTransform: "none",
             }}
             onClick={() => handleSocialSignUp(facebookProvider)}
-          >Sign up with Facebook
+          >Continue with Facebook
           </Button>
           <Button
             startIcon={
@@ -160,26 +165,41 @@ const signup = () => {
               width: "250px",
               textTransform: "none",
             }}
-          >Sign up with Microsoft
+          >Continue with Microsoft
           </Button>
           <hr />
           <Divider sx={{ my: 2, width: "90%", borderColor: "#7d7d7d", borderBottomWidth: 3 }} >or</Divider>
-          <TextField
-            label="Email"
-            size="small"
+          <Box component="form" onSubmit={handleEmailSignUp}
             sx={{
-              width: "250px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
             }}
-          />
-          <TextField
-            id="password"
-            label="password"
-            size="small"
-            sx={{
-              width: "250px",
-              my: 2,
-            }}
-          />
+          >
+            <TextField
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              size="small"
+              sx={{
+                width: "250px",
+              }}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              size="small"
+              sx={{
+                width: "250px",
+                my: 2,
+              }}
+            />
+          </Box>
           <Button
             variant="contained"
             sx={{
@@ -198,7 +218,7 @@ const signup = () => {
               my: 2,
             }}
           >
-            Already have an account? <Link href="#" color="inherit" fontWeight={600}>Login</Link>
+            Already have an account? <Link href="/login" color="inherit" fontWeight={600}>Login</Link>
           </Typography>
         </Box>
         <Typography variant="h6"

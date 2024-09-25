@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider, facebookProvider } from '@/firebase';
+import { auth, googleProvider, facebookProvider, microsoftProvider } from '@/firebase';
 import { Box, Typography, TextField, Button, Divider, Link, Hidden, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
@@ -160,6 +160,7 @@ const signin = () => {
               width: "250px",
               textTransform: "none",
             }}
+            onClick={() => handleSocialSignIn(microsoftProvider)}
           >Continue with Microsoft
           </Button>
           <hr />

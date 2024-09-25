@@ -195,9 +195,9 @@ const signin = () => {
                 my: 2,
               }}
             />
-          </Box>
           <Button
             variant="contained"
+            type="submit"
             sx={{
               width: "250px",
               backgroundColor: theme.palette.success.dark,
@@ -216,6 +216,7 @@ const signin = () => {
           >
             Don't have an account? <Link href="/" color="inherit" fontWeight={600}>Sign Up</Link>
           </Typography>
+          </Box>
         </Box>
         <Typography variant="h6"
           sx={{

@@ -23,7 +23,7 @@ const signup = () => {
     setError(''); 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      router.push('/signin'); 
+      router.push('/home'); 
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         setError('Email already registered');
@@ -105,7 +105,7 @@ const signup = () => {
           <Alert severity="error" sx={{ width: "100%", marginBottom: "16px" }}>
             {error}
           </Alert>
-        )}
+          )}
           <Typography
             variant="h5"
             sx={{
@@ -200,27 +200,28 @@ const signup = () => {
                 my: 2,
               }}
             />
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                width: "250px",
+                backgroundColor: theme.palette.success.dark,
+                '&:hover': {
+                  backgroundColor: theme.palette.success.main,
+                },
+              }}
+            >
+              Create account
+            </Button>
+            <Typography
+              sx={{
+                fontSize: "13.5px",
+                my: 2,
+              }}
+            >
+              Already have an account? <Link href="/login" color="inherit" fontWeight={600}>Login</Link>
+            </Typography>
           </Box>
-          <Button
-            variant="contained"
-            sx={{
-              width: "250px",
-              backgroundColor: theme.palette.success.dark,
-              '&:hover': {
-                backgroundColor: theme.palette.success.main,
-              },
-            }}
-          >
-            Create account
-          </Button>
-          <Typography
-            sx={{
-              fontSize: "13.5px",
-              my: 2,
-            }}
-          >
-            Already have an account? <Link href="/login" color="inherit" fontWeight={600}>Login</Link>
-          </Typography>
         </Box>
         <Typography variant="h6"
           sx={{

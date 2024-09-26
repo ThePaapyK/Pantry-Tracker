@@ -1,6 +1,7 @@
 'use client';
 import { Box, Typography, Modal, Stack, TextField, Button, Avatar, Tooltip, IconButton, Menu, MenuItem, Divider, ListItemIcon } from '@mui/material';
 import { PersonAdd, Settings, Logout } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
 import { keyframes } from '@emotion/react';
 import { auth, firestore } from '@/firebase';
 import { collection, addDoc, getDocs, query, setDoc, getDoc, doc, deleteDoc } from 'firebase/firestore';
@@ -63,12 +64,17 @@ const fetchImageFromPexels = async (query) => {
 export default function Home() {
   const [inventory,setInventory] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openRemoveModal, setOpenRemoveModal] = useState(false)
   const [itemName, setItemName] = useState('');
   const [searchQuery, setSearchQuery] = useState('')
   const [user, setUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const router = useRouter();
   const reveal = Boolean(anchorEl);
+  const [editingItem, setEditingItem] = useState(null); // Track the item being edited
+  const [newQuantity, setNewQuantity] = useState(''); // Track the new quantity input
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -136,6 +142,22 @@ export default function Home() {
     }
     await updateInventory(user.uid)
   }
+
+  const handleQuantityChange = async (item, newQuantity) => {
+    if (!user || isNaN(newQuantity)) return;
+    const docRef = doc(collection(firestore, `users/${user.uid}/inventory`), item);
+    await setDoc(docRef, { quantity: Number(newQuantity) }, { merge: true });
+    setEditingItem(null); // Close the editing mode
+    await updateInventory(user.uid); // Update the inventory
+  };
+
+
+  const deleteItem = async(item) => {
+    if (!user) return;
+    const docRef = doc(collection(firestore, `users/${user.uid}/inventory`), item)
+    await deleteDoc(docRef)
+    await updateInventory(user.uid)
+  }
   
   const filteredInventory = inventory.filter(item =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -143,6 +165,18 @@ export default function Home() {
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  const handleOpenRemoveModal = (item) => {
+    setItemToDelete(item);
+    setOpenRemoveModal(true);
+  }
+
+  const handleCloseRemoveModal = () => setOpenRemoveModal(false);
+
+  const handleConfirmDelete = () => {
+    deleteItem(itemToDelete); // Remove the item
+    handleCloseRemoveModal(); // Close the modal
+  };
 
   const handleLogout = async () => {
     try {
@@ -188,7 +222,12 @@ export default function Home() {
             aria-haspopup="true"
             aria-expanded={reveal ? 'true' : undefined}
           >
-            <Avatar >M</Avatar>
+            {user ? (
+              <Avatar >{user.displayName ? user.displayName.charAt(0) : 'U'}</Avatar>
+            ):(
+              <Avatar>U</Avatar>
+            )
+          }
           </IconButton>
         </Tooltip>
       <Menu
@@ -252,6 +291,20 @@ export default function Home() {
         </MenuItem>
       </Menu>
       </Box>
+      <Box
+      sx={{
+        textAlign: "center",
+      }}
+      >
+        {user ?
+          (
+            <Typography sx={{fontSize: "24px", }}>Welcome, {user.displayName}</Typography>
+          ):(
+            <Typography >Welcome, User</Typography>
+          )
+        }
+        <Typography sx={{fontStyle: "italic"}}>Keep track of 'em groceries</Typography>
+      </Box>
      <Box
        width="100%"
        height="inherit"
@@ -293,22 +346,48 @@ export default function Home() {
             </Stack>
           </Box>
         </Modal>
+        <Modal open={openRemoveModal} onClose={handleCloseRemoveModal}>
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Confirm Delete
+            </Typography>
+            <Typography>
+              Are you sure you want to delete {itemToDelete}?
+            </Typography>
+            <Stack width="100%" direction={'row'} spacing={2} justifyContent="flex-end">
+              <Button variant="contained" color="error" onClick={handleConfirmDelete}>
+                Delete
+              </Button>
+              <Button variant="outlined" onClick={handleCloseRemoveModal}>
+                Cancel
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
         <Button variant="contained" sx={{mb: 2}} onClick={handleOpen}>
           Add New Item
         </Button>
-	<TextField
+	      <TextField
           id="search"
           label="Search Items"
           variant="outlined"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ mb: 2, width: '600px', maxwidth: '800px' }}
+          sx={{ mb: 2, width: {sm: "80%", md: "600px", lg: "600px", xlg: "800px"}, }}
         />
-        <Box border={'1px solid #333'}>
+        <Box border={'1px solid #333'}
+          sx={{
+            width: {
+              sm: "95%",
+              md: "600px",
+              lg: "600px",
+            }
+          }}
+        >
           <Box
-            width="600px"
+            width="100%"
             height="100px"
-	    color="white"
+	          color="white"
             bgcolor="#ADD8E6"
             display={'flex'}
             justifyContent={'center'}
@@ -318,44 +397,82 @@ export default function Home() {
               Items
             </Typography>
           </Box>
-          <Stack width="600px" height="300px" spacing={2} overflow={'auto'}>
-	    {filteredInventory.length > 0 ? (
+          <Stack width="100%" height="300px" spacing={2} overflow={'auto'}>
+	          {filteredInventory.length > 0 ? (
               filteredInventory.map(({name, quantity, imageUrl}) => (
-                <Box
-                  key={name}
-                  width="100%"
-                  minHeight="150px"
-                  display={'flex'}
-                  justifyContent={'space-between'}
-                  alignItems={'center'}
-                  bgcolor={'#f0f0f0'}
-                  paddingX={5}
-                >
-		  <Box
-		    display={'flex'}
-		    justifyContent="space-between"
-		  >
-		    {imageUrl && <img src={imageUrl} alt={name} style={{ width: '100px', height: '100px', marginRight: '16px' }} />}
-		    <Box
-		      display={'flex'}
-		      flexDirection="column"
-		      justifyContent="center"
-		      sx={{ gap: 1}}
-		      alignItems="flex-start"
-		    >
-                      <Typography variant={'h4'} color={'#333'} textAlign={'center'}>
-                        {name.charAt(0).toUpperCase() + name.slice(1)}
-                      </Typography>
-                      <Typography variant={'h6'} color={'#333'} textAlign={'center'}>
-                        Quantity: {quantity}
-                      </Typography>
-		    </Box>
+            <Box
+              key={name}
+              width="100%"
+              minHeight="150px"
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              bgcolor={'#f0f0f0'}
+              paddingX={5}
+              sx={{
+                minHeight: {
+                  sm: "95px",
+                  md: "150px"
+                }
+              }}
+            >
+		        <Box
+		          display={'flex'}
+		          justifyContent="space-between"
+		        >
+		          {imageUrl && <img src={imageUrl} alt={name} style={{ width: '100px', height: '90%', marginRight: '16px' }} />}
+		          <Box
+		            display={'flex'}
+		            flexDirection="column"
+		            justifyContent="center"
+		            sx={{ gap: 1}}
+		            alignItems="flex-start"
+		          >
+              <Typography color={'#333'} textAlign={'center'}
+                sx={{
+                  fontSize: {
+                    sm: "24px",
+                    md: "40px"
+                  }
+                }}
+              >
+                {name.charAt(0).toUpperCase() + name.slice(1)}
+              </Typography>
+              {editingItem === name ? (
+                    <TextField
+                      type="number"
+                      value={newQuantity}
+                      onChange={(e) => setNewQuantity(e.target.value)}
+                      onBlur={() => handleQuantityChange(name, newQuantity)} // Save on blur
+                      autoFocus
+                      sx={{ maxWidth: '80px' }}
+                    />
+                  ) : (
+                    <Typography variant={'h6'}>
+                      Quantity: {quantity}{" "}
+                      <IconButton onClick={() => {
+                        setEditingItem(name); // Set item to edit mode
+                        setNewQuantity(quantity); // Initialize with the current quantity
+                      }}>
+                        <EditIcon />
+                      </IconButton>
+                    </Typography>
+                  )}
+		       </Box>
 		  </Box>
-                  <Button variant="contained" onClick={() => removeItem(name)}>
-                    Remove
-                  </Button>
-                </Box>
-              ))
+        <Button variant="contained" onClick={() => handleOpenRemoveModal(name)}>
+          Remove All
+        </Button>
+        <Box display="flex" alignItems="center">
+          <Button variant="outlined" onClick={() => removeItem(name)} sx={{ minWidth: '20px', marginRight: '10px', fontWeight: "700", fontSize: "20px" }}>
+            -
+          </Button>
+          <Button variant="outlined" onClick={() => addItem(name)} sx={{ minWidth: '20px', marginLeft: '10px', fontWeight: "700", fontSize: "20px"}}>
+            +
+          </Button>
+        </Box>
+      </Box>
+        ))
 	    ) : (
 	      <Box
 		width="100%"

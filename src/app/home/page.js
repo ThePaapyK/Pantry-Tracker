@@ -1,7 +1,9 @@
 'use client';
-import { Box, Typography, Modal, Stack, TextField, Button, Avatar, Tooltip, IconButton, Menu, MenuItem, Divider, ListItemIcon } from '@mui/material';
-import { PersonAdd, Settings, Logout } from '@mui/icons-material';
+import { Box, Typography, Modal, Stack, TextField, Button, Avatar, Tooltip, IconButton, Menu, MenuItem, Divider, ListItemIcon, useMediaQuery } from '@mui/material';
+import { PersonAdd, Settings, Logout, } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useTheme } from '@mui/material/styles';
 import { keyframes } from '@emotion/react';
 import { auth, firestore } from '@/firebase';
 import { collection, addDoc, getDocs, query, setDoc, getDoc, doc, deleteDoc } from 'firebase/firestore';
@@ -74,6 +76,8 @@ export default function Home() {
   const reveal = Boolean(anchorEl);
   const [editingItem, setEditingItem] = useState(null); // Track the item being edited
   const [newQuantity, setNewQuantity] = useState(''); // Track the new quantity input
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 
   const handleClick = (event) => {
@@ -373,12 +377,12 @@ export default function Home() {
           variant="outlined"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ mb: 2, width: {sm: "80%", md: "600px", lg: "600px", xlg: "800px"}, }}
+          sx={{ mb: 2, width: {sm: "90%", md: "600px", lg: "600px", xlg: "800px"}, }}
         />
         <Box border={'1px solid #333'}
           sx={{
             width: {
-              sm: "95%",
+              sm: "97%",
               md: "600px",
               lg: "600px",
             }
@@ -408,11 +412,14 @@ export default function Home() {
               justifyContent={'space-between'}
               alignItems={'center'}
               bgcolor={'#f0f0f0'}
-              paddingX={5}
               sx={{
                 minHeight: {
                   sm: "95px",
                   md: "150px"
+                },
+                paddingX: {
+                  sm: 2,
+                  md: 5,
                 }
               }}
             >
@@ -420,7 +427,7 @@ export default function Home() {
 		          display={'flex'}
 		          justifyContent="space-between"
 		        >
-		          {imageUrl && <img src={imageUrl} alt={name} style={{ width: '100px', height: '90%', marginRight: '16px' }} />}
+		          {imageUrl && <img src={imageUrl} alt={name} style={{ width: '100px', height: '100px', marginRight: '16px' }} />}
 		          <Box
 		            display={'flex'}
 		            flexDirection="column"
@@ -428,16 +435,16 @@ export default function Home() {
 		            sx={{ gap: 1}}
 		            alignItems="flex-start"
 		          >
-              <Typography color={'#333'} textAlign={'center'}
-                sx={{
-                  fontSize: {
-                    sm: "24px",
-                    md: "40px"
-                  }
-                }}
-              >
+                <Typography color={'#333'} textAlign={'center'}
+                  sx={{
+                    fontSize: {
+                      sm: "22px",
+                      md: "28px",
+                    }
+                  }}
+                >
                 {name.charAt(0).toUpperCase() + name.slice(1)}
-              </Typography>
+                </Typography>
               {editingItem === name ? (
                     <TextField
                       type="number"
@@ -445,29 +452,44 @@ export default function Home() {
                       onChange={(e) => setNewQuantity(e.target.value)}
                       onBlur={() => handleQuantityChange(name, newQuantity)} // Save on blur
                       autoFocus
-                      sx={{ maxWidth: '80px' }}
+                      sx={{ maxWidth: '70px' }}
                     />
                   ) : (
-                    <Typography variant={'h6'}>
+                    <Typography
+                      sx={{
+                        fontSize: {
+                          sm: "11px",
+                          md: "18px",
+                        },
+                      }}
+                    >
                       Quantity: {quantity}{" "}
-                      <IconButton onClick={() => {
+                      <IconButton size="small" onClick={() => {
                         setEditingItem(name); // Set item to edit mode
                         setNewQuantity(quantity); // Initialize with the current quantity
                       }}>
-                        <EditIcon />
+                        <EditIcon fontSize='14px' />
                       </IconButton>
                     </Typography>
                   )}
 		       </Box>
 		  </Box>
+        <>      
+        { isSmallScreen? (
+          <IconButton size="small" onClick={() => handleOpenRemoveModal(name)} >
+            <DeleteIcon fontSize='16px'/>
+          </IconButton>
+        ):(
         <Button variant="contained" onClick={() => handleOpenRemoveModal(name)}>
           Remove All
         </Button>
+        )}
+        </>
         <Box display="flex" alignItems="center">
-          <Button variant="outlined" onClick={() => removeItem(name)} sx={{ minWidth: '20px', marginRight: '10px', fontWeight: "700", fontSize: "20px" }}>
+          <Button size="small" variant="outlined" onClick={() => removeItem(name)} sx={{ minWidth: "30px", marginRight: "7.5px", fontWeight: "700", fontSize: {sm: "11px", md: "20px"} }}>
             -
           </Button>
-          <Button variant="outlined" onClick={() => addItem(name)} sx={{ minWidth: '20px', marginLeft: '10px', fontWeight: "700", fontSize: "20px"}}>
+          <Button size="small" variant="outlined" onClick={() => addItem(name)} sx={{ minWidth: "30px", marginLeft: "7.5px", fontWeight: "700", fontSize: {sm: "11px", md: "20px"}}}>
             +
           </Button>
         </Box>

@@ -377,12 +377,12 @@ export default function Home() {
           variant="outlined"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ mb: 2, width: {sm: "90%", md: "600px", lg: "600px", xlg: "800px"}, }}
+          sx={{ mb: 2, width: {xs: "80%", md: "600px", lg: "600px", xlg: "800px"}, }}
         />
         <Box border={'1px solid #333'}
           sx={{
             width: {
-              sm: "97%",
+              xs: "97%",
               md: "600px",
               lg: "600px",
             }
@@ -407,18 +407,17 @@ export default function Home() {
             <Box
               key={name}
               width="100%"
-              minHeight="150px"
               display={'flex'}
               justifyContent={'space-between'}
               alignItems={'center'}
               bgcolor={'#f0f0f0'}
               sx={{
                 minHeight: {
-                  sm: "95px",
+                  xs: "95px",
                   md: "150px"
                 },
                 paddingX: {
-                  sm: 2,
+                  xs: 1.5,
                   md: 5,
                 }
               }}
@@ -438,7 +437,7 @@ export default function Home() {
                 <Typography color={'#333'} textAlign={'center'}
                   sx={{
                     fontSize: {
-                      sm: "22px",
+                      xs: "22px",
                       md: "28px",
                     }
                   }}
@@ -458,17 +457,17 @@ export default function Home() {
                     <Typography
                       sx={{
                         fontSize: {
-                          sm: "11px",
+                          xs: "11px",
                           md: "18px",
                         },
                       }}
                     >
                       Quantity: {quantity}{" "}
-                      <IconButton size="small" onClick={() => {
+                      <IconButton  onClick={() => {
                         setEditingItem(name); // Set item to edit mode
                         setNewQuantity(quantity); // Initialize with the current quantity
                       }}>
-                        <EditIcon fontSize='14px' />
+                        <EditIcon />
                       </IconButton>
                     </Typography>
                   )}
@@ -476,7 +475,7 @@ export default function Home() {
 		  </Box>
         <>      
         { isSmallScreen? (
-          <IconButton size="small" onClick={() => handleOpenRemoveModal(name)} >
+          <IconButton onClick={() => handleOpenRemoveModal(name)} >
             <DeleteIcon fontSize='16px'/>
           </IconButton>
         ):(

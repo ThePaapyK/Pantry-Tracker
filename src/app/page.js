@@ -244,7 +244,7 @@ const signup = () => {
               md: "none",
               lg: "none",
             },
-            top: "90%",
+            top: "93%",
             fontFamily: "Times New Roman", 
             fontStyle: "italic",
           }}

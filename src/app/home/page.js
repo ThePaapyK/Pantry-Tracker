@@ -271,17 +271,17 @@ export default function Home() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={menuClose}>
+        <MenuItem onClick={() => {router.push('/account')}}>
           <Avatar /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={menuClose}>
+        <MenuItem onClick={() => {router.push("/home")}}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
-          Add another account
+          Home
         </MenuItem>
-        <MenuItem onClick={menuClose}>
+        <MenuItem onClick={() => {router.push('/account')}}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

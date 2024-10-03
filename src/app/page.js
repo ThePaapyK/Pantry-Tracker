@@ -50,6 +50,7 @@ const signup = () => {
       height="100dvh"
       display={'flex'}
       sx = {{
+        position: "relative",
         padding: {
           lg: 3,
           xs: 2,
@@ -98,6 +99,10 @@ const signup = () => {
               lg: "70%",
 
             },
+            mt: {
+              xs: 2.5,
+              sm: 0,
+            }
             
           }}
         >
@@ -111,10 +116,6 @@ const signup = () => {
             sx={{
               mb: 3,
               fontWeight: 600,
-              mt: {
-                xs: 2.5,
-                sm: 0,
-              }
             }}
           >Create an account
           </Typography>
@@ -241,6 +242,9 @@ const signup = () => {
           sx={{
             position: "absolute",
             textAlign: "center",
+            left: 0,
+            right: 0,
+            width: "fit-content",
             margin: "auto",
             color: "#130",
             display: {

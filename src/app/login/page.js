@@ -45,6 +45,7 @@ const signin = () => {
       height="100dvh"
       display={'flex'}
       sx = {{
+        position: "relative",
         padding: {
           lg: 3,
           xs: 2,
@@ -93,6 +94,10 @@ const signin = () => {
               lg: "70%",
 
             },
+            mt: {
+              xs: 2.5,
+              sm: 0,
+            }
             
           }}
         >
@@ -106,10 +111,6 @@ const signin = () => {
             sx={{
               mb: 3,
               fontWeight: 600,
-              mt: {
-                xs: 2.5,
-                sm: 0,
-              }
             }}
           >Sign In
           </Typography>

@@ -106,7 +106,10 @@ const signin = () => {
             sx={{
               mb: 3,
               fontWeight: 600,
-              mt: 1,
+              mt: {
+                xs: 2,
+                sm: 0,
+              }
             }}
           >Sign In
           </Typography>

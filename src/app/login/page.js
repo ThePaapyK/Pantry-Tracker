@@ -98,7 +98,6 @@ const signin = () => {
               xs: 2.5,
               sm: 0,
             }
-            
           }}
         >
           {error && (
@@ -214,6 +213,16 @@ const signin = () => {
             Sign In
           </Button>
           <Typography
+              sx={{
+                fontSize: "11px",
+                my: 1,
+                width: "300px",
+                textAlign: "center"
+              }}
+            >
+              By continuing, you agree to our <Link href="/privacy_policy" color="inherit" fontWeight={600}>Privacy Policy</Link> and our <Link href="/Terms_of_Service" color="inherit" fontWeight={600}>Terms of Service</Link>
+            </Typography>
+          <Typography
             sx={{
               fontSize: "13.5px",
               my: 2,
@@ -228,6 +237,10 @@ const signin = () => {
             position: "absolute",
             textAlign: "center",
             color: "#130",
+            margin: "auto",
+            left: 0,
+            right: 0,
+            width: "fit-content",
             display: {
               xs: "block",
               sm: "none",

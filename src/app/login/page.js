@@ -106,6 +106,7 @@ const signin = () => {
             sx={{
               mb: 3,
               fontWeight: 600,
+              mt: 1,
             }}
           >Sign In
           </Typography>
@@ -218,7 +219,7 @@ const signin = () => {
           </Typography>
           </Box>
         </Box>
-        <Typography variant="h6"
+        <Typography variant="h7"
           sx={{
             position: "absolute",
             textAlign: "center",

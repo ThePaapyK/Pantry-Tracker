@@ -234,10 +234,11 @@ const signup = () => {
             </Typography>
           </Box>
         </Box>
-        <Typography variant="h6"
+        <Typography variant="h7"
           sx={{
             position: "absolute",
             textAlign: "center",
+            margin: "auto",
             color: "#130",
             display: {
               xs: "block",

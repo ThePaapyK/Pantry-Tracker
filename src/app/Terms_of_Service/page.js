@@ -4,7 +4,7 @@ const TermsOfService = () => {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '30px', lineHeight: '1.8', color: '#333', maxWidth: '800px', margin: '0 auto' }}>
       <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>Terms of Service</h1>
-      <p style={{ fontSize: '14px', color: '#666', marginBottom: '40px', textAlign: 'center' }}>Last updated: [Date]</p>
+      <p style={{ fontSize: '14px', color: '#666', marginBottom: '40px', textAlign: 'center' }}>Last updated: September 17, 2024</p>
 
       <p style={{ marginBottom: '20px' }}>
         Welcome to Kichin! These terms of service outline the rules and regulations for the use of our app. By accessing or using our app, you agree to comply with and be bound by these terms. If you disagree with any part of the terms, you may not access the app.
@@ -38,7 +38,7 @@ const TermsOfService = () => {
 
       <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px' }}>4. Intellectual Property</h2>
       <p style={{ marginBottom: '20px' }}>
-        All content and materials available on the app, including but not limited to text, graphics, logos, and icons, are the property of [Your App Name] or its licensors. You may not copy, reproduce, distribute, or create derivative works without our explicit permission.
+        All content and materials available on the app, including but not limited to text, graphics, logos, and icons, are the property of Kichin or its licensors. You may not copy, reproduce, distribute, or create derivative works without our explicit permission.
       </p>
 
       <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px' }}>5. Termination</h2>
@@ -48,7 +48,7 @@ const TermsOfService = () => {
 
       <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px' }}>6. Limitation of Liability</h2>
       <p style={{ marginBottom: '20px' }}>
-        In no event shall [Your App Name] be liable for any indirect, incidental, or consequential damages arising out of your use of the app. We make no warranties, expressed or implied, regarding the operation of the app or the information, content, and materials provided.
+        In no event shall Kichin be liable for any indirect, incidental, or consequential damages arising out of your use of the app. We make no warranties, expressed or implied, regarding the operation of the app or the information, content, and materials provided.
       </p>
 
       <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px' }}>7. Changes to the Terms</h2>
@@ -58,7 +58,7 @@ const TermsOfService = () => {
 
       <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px' }}>8. Governing Law</h2>
       <p style={{ marginBottom: '20px' }}>
-        These terms shall be governed by and construed in accordance with the laws of [Your Country], without regard to its conflict of law provisions.
+        These terms shall be governed by and construed in accordance with the laws of Ghana and the United States, without regard to its conflict of law provisions.
       </p>
 
       <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px' }}>9. Contact Us</h2>

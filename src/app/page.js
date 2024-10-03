@@ -215,8 +215,18 @@ const signup = () => {
             </Button>
             <Typography
               sx={{
+                fontSize: "11px",
+                my: 1,
+                width: "300px",
+                textAlign: "center"
+              }}
+            >
+              By continuing, you agree to our <Link href="/privacy_policy" color="inherit" fontWeight={600}>Privacy Policy</Link> and our <Link href="/Terms_of_Service" color="inherit" fontWeight={600}>Terms of Service</Link>
+            </Typography>
+            <Typography
+              sx={{
                 fontSize: "13.5px",
-                my: 2,
+                my: 1.5,
               }}
             >
               Already have an account? <Link href="/login" color="inherit" fontWeight={600}>Login</Link>

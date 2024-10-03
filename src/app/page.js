@@ -111,6 +111,7 @@ const signup = () => {
             sx={{
               mb: 3,
               fontWeight: 600,
+              mt: 1,
             }}
           >Create an account
           </Typography>
@@ -244,7 +245,7 @@ const signup = () => {
               md: "none",
               lg: "none",
             },
-            top: "93%",
+            top: "90%",
             fontFamily: "Times New Roman", 
             fontStyle: "italic",
           }}
